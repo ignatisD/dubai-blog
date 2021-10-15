@@ -1,0 +1,19 @@
+{
+  "name": "dubai-blog",
+  "version": "1.0.0",
+  "description": "A blog about Dubai and its landmarks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ignatisD/dubai-blog.git"
+  },
+  "author": "Ignatios Drakoulas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ignatisD/dubai-blog/issues"
+  },
+  "homepage": "https://github.com/ignatisD/dubai-blog#readme"
+}
