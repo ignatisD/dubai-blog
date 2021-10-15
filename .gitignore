@@ -1,4 +1,3 @@
-
 # API keys and secrets
 .env
 .env*
@@ -20,7 +19,8 @@ Thumbs.db
 dist
 
 # Ignore folders
-uploads
+uploads/*
+logs/*
 
 !.gitignore
 !.gitkeep
