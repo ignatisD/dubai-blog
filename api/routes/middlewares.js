@@ -1,5 +1,5 @@
-const path = require("path");
-const multer = require("multer");
+const path         = require("path");
+const multer       = require("multer");
 const JsonResponse = require("../helpers/JsonResponse");
 
 const auth = async (req, res, next) => {
@@ -31,11 +31,11 @@ const isAdmin = async (req, res, next) => {
             res.sendStatus(401);
             return;
         }
-        const Role = global.Parse.Object.extend("_Role");
+        const Role      = global.Parse.Object.extend("_Role");
         const roleQuery = new global.Parse.Query(Role);
         const adminRole = await roleQuery.equalTo("name", "administrator").first({useMasterKey: true});
 
-        const user = await new Parse.Relation(adminRole, "users")
+        const user = await new global.Parse.Relation(adminRole, "users")
             .query()
             .equalTo("objectId", req.user.id)
             .first({useMasterKey: true});
@@ -62,25 +62,24 @@ const uploadFilter = (req, file, callback) => {
 };
 
 const upload = multer({
-    storage: multer.memoryStorage(),
-    limits: {
+    storage   : multer.memoryStorage(),
+    limits    : {
         fileSize: 5_242_880 // 5 MB
     },
     fileFilter: uploadFilter
 });
 
 const uploadDisk = multer({
-    storage: multer.diskStorage({
+    storage   : multer.diskStorage({
         destination: (req, file, callback) => {
             callback(null, path.join(__dirname, "../../uploads"));
         }
     }),
-    limits: {
+    limits    : {
         fileSize: 5_242_880 // 5 MB
     },
     fileFilter: uploadFilter
 });
-
 
 module.exports = {
     auth,

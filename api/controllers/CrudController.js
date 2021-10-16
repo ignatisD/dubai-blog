@@ -4,7 +4,7 @@ class CrudController {
 
     constructor(model) {
         this.modelName = model;
-        this.model = global.Parse.Object.extend(model);
+        this.model     = global.Parse.Object.extend(model);
     }
 
     query() {
@@ -40,7 +40,7 @@ class CrudController {
                 res.json(response.error("ID is required"));
                 return;
             }
-            const query = this.query();
+            const query         = this.query();
             const modelInstance = await query.get(req.params.id);
             if (!modelInstance) {
                 res.status(404).json(response.error("Not found"));

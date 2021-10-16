@@ -8,7 +8,7 @@ const ParseDashboard = require("parse-dashboard");
 const basicAuth      = require("express-basic-auth");
 const Parse          = require("parse/node");
 const Route          = require("./helpers/Route");
-const routes         = require("./routes/routes");
+
 
 class Server {
 
@@ -67,9 +67,8 @@ class Server {
         }, {
             allowInsecureHTTP: false
         });
-        // Start Parse
+        // Start Parse (will be available globally)
         Parse.initialize(process.env.APP_ID, process.env.MASTER_KEY);
-        Parse.serverURL = process.env.SERVER_URL;
     }
 
     express() {
@@ -81,12 +80,13 @@ class Server {
         this.app.use("/parse", this.api);
         this.app.use("/dashboard", basicAuth({
             users    : {
-                "admin": process.env.DASHBOARD_PASSWORD,
+                "admin": process.env.APP_PASS,
             },
             challenge: true,
             realm    : "Protected",
         }), this.parseDashboard);
 
+        const routes = require("./routes/routes");
         const router = express.Router();
 
         routes.forEach(r => {
@@ -130,7 +130,6 @@ class Server {
             });
         }
 
-        ParseServer.createLiveQueryServer(this._server);
     }
 
     async close() {

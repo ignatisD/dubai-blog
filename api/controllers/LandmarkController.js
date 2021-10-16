@@ -1,6 +1,6 @@
-const path = require("path");
-const sharp = require("sharp");
-const JsonResponse = require("../helpers/JsonResponse");
+const path           = require("path");
+const sharp          = require("sharp");
+const JsonResponse   = require("../helpers/JsonResponse");
 const CrudController = require("./CrudController");
 
 class LandmarkController extends CrudController {
@@ -29,9 +29,9 @@ class LandmarkController extends CrudController {
                 }
                 landmark.set(key, req.body[key]);
             }
-            const result = await landmark.save();
+            await landmark.save();
 
-            res.json(response.ok(result));
+            res.json(response.ok(landmark));
         } catch (e) {
             console.error(e);
             res.status(500).json(JsonResponse.caught(e));
@@ -54,25 +54,27 @@ class LandmarkController extends CrudController {
             // since using multer we have a req.file available
 
             // first save the original image
-            const file = path.parse(req.file.originalname);
-            const filename = file.base;
-            const base64File = req.file.buffer.toString("base64");
+            const file          = path.parse(req.file.originalname);
+            const filename      = file.base;
+            const base64File    = req.file.buffer.toString("base64");
             const originalImage = new global.Parse.File(filename, {base64: base64File});
             await originalImage.save();
 
             // then create a thumbnail
-            const thumbnailName = `${file.name}_thumb${file.ext}`;
-            const sharpBuffer = await sharp(req.file.buffer).rotate().resize(250, 250).toBuffer();
+            const width             = parseInt(process.env.PHOTO_WIDTH || "250", 10);
+            const height            = parseInt(process.env.PHOTO_HEIGHT || "250", 10);
+            const thumbnailName     = `${file.name}_thumb${file.ext}`;
+            const sharpBuffer       = await sharp(req.file.buffer).rotate().resize(width, height).toBuffer();
             const sharpBufferBase64 = sharpBuffer.toString("base64");
-            const thumbnail = new global.Parse.File(thumbnailName, {base64: sharpBufferBase64});
+            const thumbnail         = new global.Parse.File(thumbnailName, {base64: sharpBufferBase64});
             await thumbnail.save();
 
             // now add them to the landmark
             landmark.set("photo", originalImage);
             landmark.set("photo_thumb", thumbnail);
-            const result = await landmark.save();
+            await landmark.save();
 
-            res.json(response.ok(result));
+            res.json(response.ok(landmark));
         } catch (e) {
             console.error(e);
             res.status(500).json(JsonResponse.caught(e));
