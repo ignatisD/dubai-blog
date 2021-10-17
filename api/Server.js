@@ -5,7 +5,6 @@ const bodyParser     = require("body-parser");
 const cors           = require("cors");
 const {ParseServer}  = require("parse-server");
 const ParseDashboard = require("parse-dashboard");
-const basicAuth      = require("express-basic-auth");
 const Parse          = require("parse/node");
 const Route          = require("./helpers/Route");
 const JsonResponse   = require("./helpers/JsonResponse");
@@ -65,6 +64,12 @@ class Server {
                     primaryBackgroundColor  : "#000000",
                     secondaryBackgroundColor: "#3B3B3B"
                 }
+            ],
+            users: [
+                {
+                    user: "admin",
+                    pass: process.env.APP_PASS
+                }
             ]
         }, {
             allowInsecureHTTP: true
@@ -80,13 +85,7 @@ class Server {
         this.app.use(cors());
         this.app.use(bodyParser.json({limit: "50mb"}));
         this.app.use("/api/parse", this.api);
-        this.app.use("/api/dashboard", basicAuth({
-            users    : {
-                "admin": process.env.APP_PASS,
-            },
-            challenge: true,
-            realm    : "Protected",
-        }), this.parseDashboard);
+        this.app.use("/api/dashboard", this.parseDashboard);
 
         const routes = require("./routes/routes");
         const router = express.Router();
