@@ -67,11 +67,10 @@ class Server {
                 }
             ]
         }, {
-            allowInsecureHTTP: false
+            allowInsecureHTTP: true
         });
         // Start Parse (will be available globally)
         Parse.initialize(process.env.APP_ID, process.env.MASTER_KEY);
-        // Parse.serverURL = process.env.SERVER_URL
     }
 
     express() {
