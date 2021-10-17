@@ -16,7 +16,7 @@ export class JsonResponse<T = any> implements IResponse<T> {
         }
     }
 
-    public static get responseError(): IError {
+    public static get responseError() {
         return new ResponseError("ResponseError", "Your request resulted in an error.");
     }
 
@@ -33,7 +33,7 @@ export class JsonResponse<T = any> implements IResponse<T> {
         if (this.success) {
             return "";
         }
-        return ((this.errors ? this.errors[0] : null) || JsonResponse.responseError).toString();
+        return (this.errors?.[0]?.message || JsonResponse.responseError).toString();
     }
 
     public ok(data: T, key: string = "data", details?: any): this {

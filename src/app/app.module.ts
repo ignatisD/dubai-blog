@@ -3,15 +3,18 @@ import { BrowserModule } from "@angular/platform-browser";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { AuthInterceptor } from "./core/interceptors/HttpInterceptor";
+import { AuthInterceptor } from "@interceptors/HttpInterceptor";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxWebstorageModule } from "ngx-webstorage";
-import { environment } from "../environments/environment";
+import { environment } from "@environments/environment";
 import { ToastrModule } from "ngx-toastr";
-import { HomeModule } from "./pages/home/home.module";
-import { MainModule } from "./core/layouts/main/main.module";
-import { PageNotFoundModule } from "./pages/page-not-found/page-not-found.module";
+import { HomeModule } from "@pages/home/home.module";
+import { PageNotFoundModule } from "@pages/page-not-found/page-not-found.module";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { FormsModule } from "@angular/forms";
+import { LoadingModule } from "@components/loading/loading.module";
+import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from "ng-lazyload-image";
 
 @NgModule({
     declarations: [
@@ -20,9 +23,12 @@ import { PageNotFoundModule } from "./pages/page-not-found/page-not-found.module
     imports: [
         AppRoutingModule,
         BrowserModule,
+        BrowserAnimationsModule,
         HttpClientModule,
+        FormsModule,
         HomeModule,
-        MainModule,
+        LazyLoadImageModule,
+        LoadingModule,
         NgbModule,
         NgxWebstorageModule.forRoot({
             prefix: environment.webStoragePrefix
@@ -31,7 +37,8 @@ import { PageNotFoundModule } from "./pages/page-not-found/page-not-found.module
         ToastrModule.forRoot(),
     ],
     providers: [
-        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }
     ],
     bootstrap: [AppComponent]
 })

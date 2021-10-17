@@ -4,7 +4,7 @@ export interface IUser {
     password: string
     email: string;
     phone: string;
-    sessionToken: string;
+    sessionToken?: string;
     ACL: object;
     createdAt: string | Date;
     updatedAt: string | Date;

@@ -8,6 +8,7 @@ const ParseDashboard = require("parse-dashboard");
 const basicAuth      = require("express-basic-auth");
 const Parse          = require("parse/node");
 const Route          = require("./helpers/Route");
+const JsonResponse   = require("./helpers/JsonResponse");
 
 
 class Server {
@@ -50,6 +51,7 @@ class Server {
             masterKey  : process.env.MASTER_KEY,
             fileKey    : process.env.FILE_KEY,
             serverURL  : process.env.SERVER_URL,
+            maxUploadSize: "5mb"
         });
         // Start Parse Dashboard
         this.parseDashboard = new ParseDashboard({
@@ -69,6 +71,7 @@ class Server {
         });
         // Start Parse (will be available globally)
         Parse.initialize(process.env.APP_ID, process.env.MASTER_KEY);
+        // Parse.serverURL = process.env.SERVER_URL
     }
 
     express() {
@@ -77,8 +80,8 @@ class Server {
         this.app.set("etag", false);
         this.app.use(cors());
         this.app.use(bodyParser.json({limit: "50mb"}));
-        this.app.use("/parse", this.api);
-        this.app.use("/dashboard", basicAuth({
+        this.app.use("/api/parse", this.api);
+        this.app.use("/api/dashboard", basicAuth({
             users    : {
                 "admin": process.env.APP_PASS,
             },
@@ -95,7 +98,7 @@ class Server {
         })
 
         router.use((req, res) => {
-            res.status(404).send("Not Found");
+            res.status(404).json(new JsonResponse().error("Not Found"));
         });
 
         this.app.use(router);

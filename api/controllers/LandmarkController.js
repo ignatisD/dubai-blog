@@ -16,20 +16,21 @@ class LandmarkController extends CrudController {
                 res.json(response.error("ID is required"));
                 return;
             }
-            const landmark = await this.query().get(req.params.id);
+            const landmark = await this.query().get(req.params.id, {sessionToken: req.sessionToken});
             if (!landmark) {
-                res.json(response.error("Not found"));
+                res.json(response.error("Landmark not found"));
                 return;
             }
 
-            const canBeUpdated = ["title", "short_info", "description", "location"];
+            const canBeUpdated = ["title", "short_info", "description", "url", "photo", "photo_thumb"];
             for (const key of canBeUpdated) {
                 if (!req.body.hasOwnProperty(key)) {
                     continue;
                 }
                 landmark.set(key, req.body[key]);
             }
-            await landmark.save();
+
+            await landmark.save(undefined, {sessionToken: req.sessionToken});
 
             res.json(response.ok(landmark));
         } catch (e) {
@@ -46,7 +47,7 @@ class LandmarkController extends CrudController {
                 res.json(response.error("ID and image file are required"));
                 return;
             }
-            const landmark = await this.query().get(req.params.id);
+            const landmark = await this.query().get(req.params.id, {sessionToken: req.sessionToken});
             if (!landmark) {
                 res.json(response.error("Not found"));
                 return;
@@ -72,7 +73,7 @@ class LandmarkController extends CrudController {
             // now add them to the landmark
             landmark.set("photo", originalImage);
             landmark.set("photo_thumb", thumbnail);
-            await landmark.save();
+            await landmark.save(undefined, {sessionToken: req.sessionToken});
 
             res.json(response.ok(landmark));
         } catch (e) {

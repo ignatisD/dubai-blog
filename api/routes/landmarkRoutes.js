@@ -34,7 +34,7 @@ const landmarkRoutes = [
         middlewares: [
             auth,
             isAdmin,
-            upload.single("image")
+            upload.single("photo")
         ]
     }
 ];

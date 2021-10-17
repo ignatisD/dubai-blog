@@ -1,0 +1,30 @@
+#background {
+    background-image: url(/assets/img/bg.jpg);
+    min-height: 50vh;
+}
+
+.bg-blur {
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    border-radius: 5px;
+}
+
+.landmark-image {
+    max-height: 80vh;
+    width: auto;
+    max-width: 100%;
+}
+
+.absolute-top-right {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    z-index: 10;
+}
+.absolute-bottom-right {
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+    z-index: 10;
+}

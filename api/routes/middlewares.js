@@ -16,6 +16,7 @@ const auth = async (req, res, next) => {
             return;
         }
         req.user = session.get("user");
+        req.sessionToken = token;
 
         next();
     } catch (e) {

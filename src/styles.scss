@@ -1,4 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./assets/styles/variables";
+@import '~ngx-toastr/toastr';
+@import "~bootstrap/scss/bootstrap";
+@import "~font-awesome/css/font-awesome.min.css";
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+html {
+    min-height: 100%;
+}
+body {
+    min-height: 100vh;
+}
+
+.bg-image {
+    background-origin: border-box;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.text-underline {
+    text-decoration: underline;
+}
+
+.text-pre-wrap {
+    white-space: pre-wrap !important;
+}

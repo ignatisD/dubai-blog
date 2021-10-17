@@ -1,1 +1,42 @@
-<p>landmark works!</p>
+<section class="container-fluid p-2">
+    <div class="container p-0" *ngIf="landmark">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">{{landmark.title}}</h2>
+                <p class="text-muted mb-2 text-pre-wrap">
+                    {{landmark.short_info}}
+                </p>
+
+                <div class="text-center py-4 px-2">
+                    <img [alt]="landmark.title"
+                         class="landmark-image"
+                         [errorImage]="dummy"
+                         [lazyLoad]="landmark.photo?.url || dummy"
+                         [defaultImage]="loadingDummy" />
+                </div>
+
+                <p class="text-muted mb-3 text-pre-wrap">
+                    {{landmark.description}}
+                </p>
+
+                <div class="text-right">
+                    <a [href]="landmark.url" target="_blank" rel="noreferrer noopener" class="btn btn-dark">
+                        <i class="fa fa-external-link"></i> More information
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container text-center my-5" *ngIf="loading">
+        <app-loading [scale]="2"></app-loading>
+    </div>
+
+    <div class="container text-center my-5" *ngIf="!landmark && !loading">
+        <h2>Landmark not found</h2>
+        <p>The Landmark you were looking for doesn't exist</p>
+
+        <a href="/">Go home</a>
+    </div>
+
+</section>

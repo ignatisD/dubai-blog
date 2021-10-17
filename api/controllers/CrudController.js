@@ -40,10 +40,10 @@ class CrudController {
                 res.json(response.error("ID is required"));
                 return;
             }
-            const query         = this.query();
-            const modelInstance = await query.get(req.params.id);
+            const query         = this.query().equalTo("objectId", req.params.id);
+            const modelInstance = await query.first();
             if (!modelInstance) {
-                res.status(404).json(response.error("Not found"));
+                res.json(response.error("Not found"));
                 return;
             }
             res.json(response.ok(modelInstance));

@@ -8,6 +8,6 @@ export interface ILandmark {
     short_info: string;
     url: string;
     order: number;
-    photo: IFile;
-    photo_thumb: IFile;
+    photo: IFile|any;
+    photo_thumb: IFile|any;
 }

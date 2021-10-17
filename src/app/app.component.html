@@ -1,1 +1,75 @@
-<router-outlet></router-outlet>
+<header class="bg-dark p-2 text-white">
+    <div class="container py-1">
+        <div class="row justify-content-between">
+            <div class="col">
+                <a [routerLink]="['/']">
+                    <img src="assets/img/logo@50.png" class="mr-2" width="25" alt="DUB" />
+                    <h1 class="h4 d-inline-block align-middle my-0 text-white">The Dubai Blog</h1>
+                </a>
+            </div>
+            <div class="col-auto text-right">
+                <div *ngIf="!authService.user">
+                    <button class="btn btn-sm btn-dark" (click)="modalService.open(loginModal, {ariaLabelledBy: 'login-modal-title'})">Login</button>
+                </div>
+                <div ngbDropdown [placement]="'bottom-right'" *ngIf="authService.user">
+                    <button class="btn btn-sm btn-dark" ngbDropdownToggle>
+                        <i class="fa fa-user pr-2"></i>
+                        <span class="d-sm-inline d-none">{{ authService.user.username }}</span>
+                    </button>
+                    <div ngbDropdownMenu class="bg-dark text-white">
+                        <div ngbDropdownItem class="text-white d-block d-sm-none">{{ authService.user.username }}</div>
+                        <button ngbDropdownItem class="btn btn-sm btn-dark" (click)="logout()">
+                            <i class="fa fa-power-off text-danger pr-2"></i> <span class="text-white">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container-fluid flex-grow-1 p-0">
+    <router-outlet></router-outlet>
+</main>
+
+<footer class="bg-dark p-2 text-white">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-sm-4 py-3 text-center">
+                Copyright ©&nbsp;2021 Ignatios Drakoulas
+            </div>
+            <div class="col-sm-4 text-center mb-3">
+                <a [routerLink]="['/']">
+                    <img src="assets/img/logo@50.png" class="img-thumbnail p-2" style="border-radius: 50%" width="50" alt="DUB" />
+                </a>
+            </div>
+            <div class="col-sm-4 text-center">
+                <a class="social-icon" target="_blank" href="https://www.instagram.com/ignatisd/"><i class="fa fa-instagram"></i></a>
+                <a class="social-icon" target="_blank" href="https://www.facebook.com/ignatis"><i class="fa fa-facebook"></i></a>
+                <a class="social-icon" target="_blank" href="https://twitter.com/ignatisd"><i class="fa fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<ng-template #loginModal let-modal>
+    <div class="modal-header">
+        <h4 id="login-modal-title" class="modal-title">Login</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" type="text" class="form-control" [(ngModel)]="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" class="form-control" [(ngModel)]="password">
+        </div>
+        <div class="text-right">
+            <button class="btn btn-dark" [disabled]="!(username && password)" (click)="login(modal)">Login</button>
+        </div>
+    </div>
+</ng-template>

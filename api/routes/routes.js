@@ -3,11 +3,11 @@ const landmarkRoutes = require("./landmarkRoutes");
 
 const routes = [
     {
-        path: "/auth",
+        path: "/api/auth",
         routes: authRoutes
     },
     {
-        path: "/landmarks",
+        path: "/api/landmarks",
         routes: landmarkRoutes
     },
 ];
