@@ -1,4 +1,5 @@
 export const environment = {
     production: true,
-    webStoragePrefix: "dubai"
+    webStoragePrefix: "dubai",
+    domain: "https://dubai-blog.thedemo.app/api"
 };
